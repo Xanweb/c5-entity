@@ -1,0 +1,24 @@
+{
+    "name": "xanweb/c5-entity",
+    "description": "Concrete5 Entity",
+    "keywords": ["concrete5", "concrete5-v8", "library"],
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "xanweb/c5-common": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xanweb\\C5\\Entity\\": ""
+        }
+    },
+    "extra" : {
+        "branch-alias": {
+            "dev-develop": "1.x-dev"
+        }
+    },
+    "support": {
+        "source": "https://github.com/xanweb/c5-entity"
+    }
+}
