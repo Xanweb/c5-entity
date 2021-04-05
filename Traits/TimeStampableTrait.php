@@ -6,6 +6,12 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Trait TimeStampableTrait
+ * *** IMPORTANT !!! *****
+ * Please note that usage of this trait requires "HasLifecycleCallbacks" annotation.
+ * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/reference/annotations-reference.html#annref_haslifecyclecallbacks
+ */
 trait TimeStampableTrait
 {
     /**
