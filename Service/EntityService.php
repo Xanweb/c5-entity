@@ -6,17 +6,15 @@ use Concrete\Core\Support\Facade\Application;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * @template T
+ * @psalm-template T
+ * @template-extends ServiceInterface<T>
+ */
 abstract class EntityService implements ServiceInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var EntityRepository
-     */
-    private $repo;
+    private EntityRepository $repo;
+    protected EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -28,7 +26,7 @@ abstract class EntityService implements ServiceInterface
      */
     protected function repo(): EntityRepository
     {
-        if (!$this->repo) {
+        if (!isset($this->repo)) {
             $this->repo = $this->entityManager->getRepository($this->getEntityClass());
         }
 
@@ -36,11 +34,13 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
+     * @return T
+     * @psalm-return T
      * @see ServiceInterface::createEntity()
      */
-    public function createEntity()
+    public function createEntity(): object
     {
         $app = Application::getFacadeApplication();
 
@@ -48,41 +48,49 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
+     * @return array<int, T>
+     * @psalm-return array<int, T>
      * @see ServiceInterface::getList()
      */
-    public function getList()
+    public function getList(): array
     {
         return $this->repo()->findAll();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
+     * @return array<int, T>
+     * @psalm-return array<int, T>
      * @see ServiceInterface::getSortedList()
      */
-    public function getSortedList($orderBy = [])
+    public function getSortedList(array $orderBy = []): array
     {
         return $this->repo()->findBy([], $orderBy);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
+     * @return T|null The entity instance or NULL if the entity can not be found
+     * @psalm-return T|null
      * @see ServiceInterface::getByID()
      */
-    public function getByID($id)
+    public function getByID($id): ?object
     {
         return $this->repo()->find($id);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
+     * @return T
+     * @psalm-return T
      * @see ServiceInterface::create()
      */
-    public function create(array $data = [])
+    public function create(array $data = []): object
     {
         $entity = $this->createEntity();
         $entity->setPropertiesFromArray($data);
@@ -94,11 +102,14 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param T $entity
+     * @psalm-param T $entity
      *
      * @see ServiceInterface::update()
      */
-    public function update($entity, array $data = [])
+    public function update($entity, array $data = []): bool
     {
         $entity->setPropertiesFromArray($data);
 
@@ -109,7 +120,10 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param array<int, T> $entities
+     * @psalm-param array<int, T> $entities
      *
      * @see ServiceInterface::bulkSave()
      */
@@ -123,7 +137,10 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param T $entity
+     * @psalm-param T $entity
      *
      * @see ServiceInterface::delete()
      */
@@ -136,7 +153,10 @@ abstract class EntityService implements ServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param array<int, T> $entities
+     * @psalm-param array<int, T> $entities
      *
      * @see ServiceInterface::bulkDelete()
      */

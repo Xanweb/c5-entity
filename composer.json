@@ -1,12 +1,12 @@
 {
     "name": "xanweb/c5-entity",
-    "description": "Concrete5 Entity",
-    "keywords": ["concrete5", "concrete5-v8", "library"],
+    "description": "ConcreteCMS Entity",
+    "keywords": ["concretecms", "concretecms-v9", "library"],
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
-        "xanweb/c5-common": "^1.1"
+        "php": ">=7.4",
+        "xanweb/c5-common": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -15,7 +15,7 @@
     },
     "extra" : {
         "branch-alias": {
-            "dev-develop": "1.x-dev"
+            "dev-develop": "2.x-dev"
         }
     },
     "support": {
