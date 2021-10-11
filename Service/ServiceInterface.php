@@ -67,6 +67,7 @@ interface ServiceInterface
      * Update Entity.
      *
      * @param T $entity
+     * @param array $data
      *
      * @return bool
      * @psalm-param T $entity
@@ -80,7 +81,7 @@ interface ServiceInterface
      *
      * @psalm-param array<int, T> $entities
      */
-    public function bulkSave(array $entities);
+    public function bulkSave(array $entities): void;
 
     /**
      * Delete Entity.
@@ -99,5 +100,5 @@ interface ServiceInterface
      *
      * @psalm-param array<int, T> $entities
      */
-    public function bulkDelete(array $entities);
+    public function bulkDelete(array $entities): void;
 }
