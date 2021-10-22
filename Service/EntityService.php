@@ -2,7 +2,8 @@
 
 namespace Xanweb\C5\Entity\Service;
 
-use Concrete\Core\Support\Facade\Application;
+use Concrete\Core\Application\ApplicationAwareInterface;
+use Concrete\Core\Application\ApplicationAwareTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -11,8 +12,10 @@ use Doctrine\ORM\EntityRepository;
  * @psalm-template T
  * @template-extends ServiceInterface<T>
  */
-abstract class EntityService implements ServiceInterface
+abstract class EntityService implements ServiceInterface, ApplicationAwareInterface
 {
+    use ApplicationAwareTrait;
+
     private EntityRepository $repo;
     protected EntityManagerInterface $entityManager;
 
@@ -23,14 +26,12 @@ abstract class EntityService implements ServiceInterface
 
     /**
      * Gets the repository for the entity class.
+     *
+     * @noinspection PhpIncompatibleReturnTypeInspection
      */
     protected function repo(): EntityRepository
     {
-        if (!isset($this->repo)) {
-            $this->repo = $this->entityManager->getRepository($this->getEntityClass());
-        }
-
-        return $this->repo;
+        return $this->repo ?? $this->repo = $this->entityManager->getRepository($this->getEntityClass());
     }
 
     /**
@@ -42,9 +43,7 @@ abstract class EntityService implements ServiceInterface
      */
     public function createEntity(): object
     {
-        $app = Application::getFacadeApplication();
-
-        return $app->make($this->getEntityClass());
+        return $this->app->build($this->getEntityClass());
     }
 
     /**
