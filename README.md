@@ -30,6 +30,9 @@ class MyEntity extends \Xanweb\C5\Entity\EntityObject {
  * @method MyEntity create($data)
  * @method MyEntity getByID($id)
  * @method MyEntity[] getList()
+ * 
+ * or if your IDE supports generic type
+ * @implements EntityService<MyEntity>
  */
 class MyEntityService extends \Xanweb\C5\Entity\Service\EntityService {
     /**
